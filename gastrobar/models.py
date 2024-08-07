@@ -3,11 +3,10 @@ from django.db import models
 
 class Cliente(models.Model):
     nome = models.CharField(max_length= 100)
-    email = models.EmailField(blank=False, max_length=30, )
+    email = models.EmailField(blank=False, max_length=30, null=False )
     cpf = models.CharField(max_length=11, unique=True)
-    rg = models.CharField(max_length=9)
+    pswd = models.CharField(max_length=99, null=False)
     celular = models.CharField(max_length=14)
-    senha = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nome
@@ -15,7 +14,7 @@ class Cliente(models.Model):
 class Reserva(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     numero = models.AutoField(primary_key=True)
-    data = models.DateField(blank=False)
+    data = models.DateField(default=datetime.now, blank=False)
     horario = models.TimeField(blank=False)
 
     def __str__(self):
