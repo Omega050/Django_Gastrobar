@@ -24,6 +24,7 @@ class Pedido(models.Model):
     data = models.DateField(default= datetime.now, blank = False)
     hora = models.TimeField(blank=False)
     preco = models.DecimalField(max_digits=6, decimal_places=2)
+    item = models.ForeignKey('ItemPedido', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
@@ -42,9 +43,12 @@ class Prato(ItemMenu):
 
 class Bebida(ItemMenu):
     tamanho = models.CharField(max_length=10, blank=False, null=False)
-    estoque = models.IntegerField
+    estoque = models.IntegerField(blank=False, null=False)
 
 class ItemPedido(models.Model):
     item = models.ForeignKey(ItemMenu, on_delete=models.CASCADE)
     numero_pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     quantidade = models.IntegerField(blank=False, null=False)
+    
+    def __str__(self):
+        return f"{self.quantidade} x {self.item.nome}"
