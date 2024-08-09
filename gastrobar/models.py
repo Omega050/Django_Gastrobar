@@ -17,7 +17,7 @@ class Mesa(models.Model):
 
 class Reserva(models.Model):
     numero = models.AutoField(primary_key=True)
-    mesa = models.ForeignKey(Mesa, blank=False, null=False)
+    mesa = models.ForeignKey(Mesa, on_delete = models.CASCADE, blank=False, null=False)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     data = models.DateField(default=datetime.now, blank=False)
     horario = models.TimeField(blank=False)
@@ -29,7 +29,6 @@ class Pedido(models.Model):
     data = models.DateField(default= datetime.now, blank = False)
     hora = models.TimeField(blank=False)
     preco = models.DecimalField(max_digits=6, decimal_places=2)
-    item = models.ForeignKey('ItemPedido', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
@@ -51,7 +50,7 @@ class Prato(ItemMenu):
 
 class Bebida(ItemMenu):
     tamanho = models.CharField(max_length=10, blank=False, null=False)
-    estoque = models.IntegerField(blank=False, null=False)
+    estoque = models.IntegerField(blank=False, default=0)
 
 class ItemPedido(models.Model):
     item = models.ForeignKey(ItemMenu, on_delete=models.CASCADE)
