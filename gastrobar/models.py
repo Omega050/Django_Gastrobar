@@ -11,9 +11,14 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome
 
-class Reserva(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+class Mesa(models.Model):
     numero = models.AutoField(primary_key=True)
+    status = models.BooleanField()
+
+class Reserva(models.Model):
+    numero = models.AutoField(primary_key=True)
+    mesa = models.ForeignKey(Mesa, on_delete = models.CASCADE, blank=False, null=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     data = models.DateField(default=datetime.now, blank=False)
     horario = models.TimeField(blank=False)
 
@@ -27,6 +32,9 @@ class Pedido(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+class Comanda(models.Model):
+    numero = models.AutoField(primary_key=True)
 
 class ItemMenu(models.Model):
     nome = models.CharField(max_length=30, blank=False, null=False)
@@ -42,9 +50,12 @@ class Prato(ItemMenu):
 
 class Bebida(ItemMenu):
     tamanho = models.CharField(max_length=10, blank=False, null=False)
-    estoque = models.IntegerField
+    estoque = models.IntegerField(blank=False, default=0)
 
 class ItemPedido(models.Model):
     item = models.ForeignKey(ItemMenu, on_delete=models.CASCADE)
     numero_pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     quantidade = models.IntegerField(blank=False, null=False)
+    
+    def __str__(self):
+        return f"{self.quantidade} x {self.item.nome}"
