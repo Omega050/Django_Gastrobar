@@ -35,6 +35,12 @@ class Pedido(models.Model):
 
 class Comanda(models.Model):
     numero = models.AutoField(primary_key=True)
+    mesa = models.ForeignKey(Mesa, on_delete=models.SET_NULL, null=True)
+    cliente = models.ForeignKey(Cliente, null = True, on_delete=models.SET_NULL)
+    valorTotal = models.DecimalField(max_digits=6, decimal_places=2) 
+    data = models.DateField(default= datetime.now, blank = False)
+    hora_abertura = models.TimeField(blank=False)
+    hora_fechamento = models.TimeField(blank=False)
 
 class ItemMenu(models.Model):
     nome = models.CharField(max_length=30, blank=False, null=False)
