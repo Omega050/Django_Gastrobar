@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from gastrobar.models import Cliente, Reserva, Mesa, Prato, Bebida, ItemPedido, Pedido
+from gastrobar.models import Cliente, Reserva, Mesa, Prato, Bebida, ItemPedido, Pedido, Comanda
 
 class CLienteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,4 +34,9 @@ class ItemPedidoSerializer(serializers.ModelSerializer):
 class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
+        fields = '__all__'
+
+class ComandaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comanda
         fields = '__all__'
